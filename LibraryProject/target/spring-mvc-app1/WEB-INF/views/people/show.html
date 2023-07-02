@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <title>Ваш личный кабинет</title>
+</head>
+<body>
+
+<!-- ФИО, год рождения -->
+<p th:text="${person.getName() + ', ' + person.getYear()}">user full name, year of born</p>
+<br/>
+<hr/>
+<!-- Если человек не взял книги: "Человек не взял ни одной книги" -->
+<div th:if="${books.isEmpty()}">
+    <p>Человек ни взял ни одной книги</p>
+</div>
+<!-- Если книги есть: список книг -->
+<div th:if = "${!books.isEmpty()}">
+    <b>Книги:</b>
+    <br/>
+    <table th:each=" book :${books}">
+        <tr th:text="${book.getTitle()} + ', ' +  ${book.getAuthor()}+ ', ' +${book.getYear()}"></tr>
+    </table>
+</div>
+<hr/>
+<br/>
+<!-- Кнопка "редактировать" -->
+<form th:method="GET" th:action="@{/people/{id}/edit(id=${person.getId()})}">
+    <input type="submit" value="Изменить данные пользователя">
+</form>
+<br/>
+<!-- Кнопка "удалить" -->
+<form th:method="DELETE" th:action="@{/people/{id}(id=${person.getId()})}">
+    <input type="submit" value="Удалить пользователя">
+</form>
+<a href="http://localhost:8080/people">Перейти к пользователям</a>
+</body>
+</html>
